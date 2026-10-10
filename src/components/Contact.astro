@@ -1,0 +1,90 @@
+---
+import Icon from './Icon.astro';
+import { profile } from '../data/site';
+
+const socials = [
+  { href: profile.linkedin, label: 'LinkedIn', icon: 'ph:linkedin-logo' },
+  { href: profile.github, label: 'GitHub', icon: 'ph:github-logo' },
+  { href: profile.resume, label: 'Resume (PDF)', icon: 'ph:file-text' },
+];
+---
+<section id="contact" aria-labelledby="contact-title" class="mx-auto max-w-6xl px-4 pt-10 pb-16 sm:px-6 md:pb-24">
+  <div
+    data-reveal
+    class="relative overflow-hidden rounded-[var(--radius-tile)] border border-line bg-surface px-6 py-16 md:px-14 md:py-24"
+  >
+    <div
+      class="pointer-events-none absolute -top-40 -right-32 size-[34rem] rounded-full bg-[radial-gradient(closest-side,var(--accent-soft),transparent)]"
+      aria-hidden="true"
+    ></div>
+
+    <p class="relative mb-6 text-xs font-medium tracking-[0.16em] text-accent-ink uppercase">Contact</p>
+    <h2 id="contact-title" class="relative max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-balance text-ink md:text-6xl">
+      Hiring for a frontend role? I'd like to hear about it.
+    </h2>
+
+    <div class="relative mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
+      <a
+        href={`mailto:${profile.email}`}
+        class="group inline-flex h-14 items-center gap-3 rounded-full bg-accent px-7 text-lg font-medium whitespace-nowrap text-on-accent shadow-[0_10px_30px_-10px_var(--accent)] transition duration-300 ease-out-expo hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+      >
+        <Icon name="ph:envelope-simple" size={20} />
+        Email me
+      </a>
+      <button
+        type="button"
+        data-copy={profile.email}
+        class="inline-flex h-14 items-center gap-3 rounded-full border border-line bg-elevated px-6 font-mono text-sm text-muted transition hover:border-ink/30 hover:text-ink active:scale-[0.98]"
+      >
+        <span data-copy-label>{profile.email}</span>
+        <Icon name="ph:copy" size={16} />
+      </button>
+      <span class="sr-only" role="status" aria-live="polite" data-copy-status></span>
+    </div>
+
+    <ul class="relative mt-14 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-8">
+      {socials.map((s) => (
+        <li>
+          <a
+            href={s.href}
+            target={s.href.startsWith('http') ? '_blank' : undefined}
+            rel={s.href.startsWith('http') ? 'noreferrer' : undefined}
+            class="group inline-flex items-center gap-2 text-ink transition-colors hover:text-accent-ink"
+          >
+            <Icon name={s.icon} size={20} />
+            {s.label}
+            <Icon name="ph:arrow-up-right" size={14} class="text-subtle transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <footer class="mt-10 flex flex-col gap-2 px-1 text-sm text-subtle sm:flex-row sm:justify-between">
+    <p>© {new Date().getFullYear()} {profile.name}</p>
+    <p>Built with Astro and Tailwind CSS.</p>
+  </footer>
+</section>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-copy]');
+  const label = btn?.querySelector('[data-copy-label]');
+  const status = document.querySelector('[data-copy-status]');
+  let timer = 0;
+
+  btn?.addEventListener('click', async () => {
+    const email = btn.dataset.copy!;
+    try {
+      await navigator.clipboard.writeText(email);
+      if (label) label.textContent = 'Copied to clipboard';
+      if (status) status.textContent = 'Email address copied';
+    } catch {
+      if (label) label.textContent = 'Copy failed, select it manually';
+    }
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      if (label) label.textContent = email;
+      if (status) status.textContent = '';
+    }, 2000);
+  });
+</script>

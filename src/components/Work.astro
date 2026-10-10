@@ -1,0 +1,170 @@
+---
+import Icon from './Icon.astro';
+import { projects, type Project } from '../data/site';
+
+const toneClass: Record<Project['tone'], string> = {
+  accent:
+    'bg-elevated bg-[radial-gradient(120%_90%_at_100%_0%,var(--accent-soft),transparent_60%),radial-gradient(80%_60%_at_0%_100%,var(--accent-soft),transparent_70%)]',
+  dots: 'bg-surface dots',
+  surface: 'bg-surface',
+  ink: 'bg-ink text-bg',
+};
+---
+<section id="work" aria-labelledby="work-title" class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+  <div data-reveal class="max-w-2xl">
+    <h2 id="work-title" class="text-4xl font-semibold tracking-[-0.035em] text-ink md:text-5xl">Selected work</h2>
+    <p class="mt-4 max-w-[60ch] text-lg leading-relaxed text-muted">
+      Product work for accounting, legal and AI teams. Open any project for the details.
+    </p>
+  </div>
+
+  <ul class="mt-12 grid auto-rows-[minmax(15rem,auto)] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+    {projects.map((p, i) => {
+      const isInk = p.tone === 'ink';
+      const big = p.layout.includes('row-span-2');
+      return (
+        <li data-reveal style={`--d:${i % 4}`} class={p.layout}>
+          <button
+            type="button"
+            data-open={p.id}
+            data-spotlight
+            aria-haspopup="dialog"
+            class:list={[
+              'spotlight group flex h-full w-full flex-col rounded-[var(--radius-tile)] border p-6 text-left transition duration-500 ease-out-expo hover:-translate-y-1 active:scale-[0.99] md:p-7',
+              isInk ? 'border-transparent' : 'border-line',
+              toneClass[p.tone],
+            ]}
+          >
+            <div class="flex items-start justify-between gap-4">
+              <p class:list={['font-mono text-xs', isInk ? 'text-bg/60' : 'text-subtle']}>
+                {p.org}, {p.period}
+              </p>
+              <span
+                class:list={[
+                  'grid size-9 shrink-0 place-items-center rounded-full border transition duration-500 ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent',
+                  isInk ? 'border-bg/20' : 'border-line',
+                ]}
+              >
+                <Icon name="ph:arrow-up-right" size={16} />
+              </span>
+            </div>
+
+            {p.icons && (
+              <div class:list={['mt-6 flex items-center gap-3', isInk ? 'text-bg/80' : 'text-muted']}>
+                {p.icons.map((icon) => (
+                  <Icon name={icon} size={big ? 30 : 24} />
+                ))}
+              </div>
+            )}
+
+            {p.highlights && (
+              <ul class="mt-10 hidden gap-3 md:grid" aria-label="Highlights">
+                {p.highlights.map((h) => (
+                  <li class="flex items-center gap-3 text-ink">
+                    <span class="grid size-7 shrink-0 place-items-center rounded-full bg-accent-soft text-accent-ink">
+                      <Icon name="ph:check" size={14} />
+                    </span>
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div class="mt-auto pt-8">
+              <h3
+                class:list={[
+                  'font-semibold tracking-[-0.02em] text-balance',
+                  big ? 'text-3xl md:text-4xl' : 'text-xl',
+                ]}
+              >
+                {p.title}
+              </h3>
+              <p
+                class:list={[
+                  'mt-3 leading-relaxed text-pretty',
+                  big ? 'max-w-[44ch] text-base' : 'text-sm',
+                  isInk ? 'text-bg/70' : 'text-muted',
+                ]}
+              >
+                {p.summary}
+              </p>
+              <ul class="mt-5 flex flex-wrap gap-1.5" aria-label="Stack">
+                {p.stack.slice(0, big ? 4 : 3).map((s) => (
+                  <li
+                    class:list={[
+                      'rounded-full border px-2.5 py-1 font-mono text-[11px]',
+                      isInk ? 'border-bg/20 text-bg/80' : 'border-line bg-bg/60 text-muted',
+                    ]}
+                  >
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </button>
+        </li>
+      );
+    })}
+  </ul>
+
+  {projects.map((p) => (
+    <dialog
+      id={`dlg-${p.id}`}
+      aria-labelledby={`dlg-${p.id}-title`}
+      class="project-dialog m-auto max-h-[min(88dvh,46rem)] w-[min(44rem,calc(100vw-2rem))] overflow-y-auto rounded-[var(--radius-tile)] border border-line bg-elevated p-0 text-ink shadow-[var(--shadow)]"
+    >
+      <div class="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-line bg-elevated/90 px-6 py-4 backdrop-blur md:px-8">
+        <p class="font-mono text-xs text-subtle">{p.org}, {p.period}</p>
+        <button
+          type="button"
+          data-close
+          class="grid size-9 place-items-center rounded-full border border-line text-muted transition hover:border-ink/30 hover:text-ink active:scale-95"
+          aria-label="Close"
+        >
+          <Icon name="ph:x" size={16} />
+        </button>
+      </div>
+      <div class="px-6 pt-6 pb-8 md:px-8">
+        <h3 id={`dlg-${p.id}-title`} class="text-3xl font-semibold tracking-[-0.03em] text-balance">{p.title}</h3>
+        <p class="mt-3 max-w-[60ch] leading-relaxed text-muted">{p.summary}</p>
+        <ul class="mt-5 flex flex-wrap gap-1.5" aria-label="Stack">
+          {p.stack.map((s) => (
+            <li class="rounded-full border border-line bg-surface px-2.5 py-1 font-mono text-[11px] text-muted">{s}</li>
+          ))}
+        </ul>
+        <ul class="mt-8 space-y-4">
+          {p.points.map((pt) => (
+            <li class="flex gap-3 leading-relaxed">
+              <Icon name="ph:check" size={18} class="mt-1 shrink-0 text-accent-ink" />
+              <span>{pt}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </dialog>
+  ))}
+</section>
+
+<script>
+  // Open/close project dialogs. Native <dialog> handles focus trap and Esc.
+  document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((btn) => {
+    const dlg = document.getElementById(`dlg-${btn.dataset.open}`) as HTMLDialogElement | null;
+    if (!dlg) return;
+    btn.addEventListener('click', () => {
+      dlg.showModal();
+      document.documentElement.style.overflow = 'hidden';
+    });
+    dlg.addEventListener('close', () => {
+      document.documentElement.style.overflow = '';
+      btn.focus({ preventScroll: true });
+    });
+    dlg.querySelector('[data-close]')?.addEventListener('click', () => dlg.close());
+    // Click on the backdrop (outside the panel) closes it.
+    dlg.addEventListener('click', (e) => {
+      if (e.target !== dlg) return;
+      const r = dlg.getBoundingClientRect();
+      const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) dlg.close();
+    });
+  });
+</script>

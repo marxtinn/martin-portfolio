@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* Theme: CSS variables swapped by [data-theme]. Dark variant follows the same attribute. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+  Shape rule: surfaces (tiles, image, dialog) use --radius-tile (18px).
+  Everything interactive (buttons, chips, nav) is a full pill.
+*/
+:root {
+  --bg: #fafafa;
+  --surface: #f2f2f3;
+  --elevated: #ffffff;
+  --ink: #17171a;
+  --muted: #4f4f57;
+  --subtle: #6b6b74;
+  --line: #e3e3e6;
+  --accent: #ff5f1f;
+  --accent-ink: #c2410c;
+  --accent-soft: rgb(255 95 31 / 0.1);
+  --on-accent: #17171a;
+  --shadow: 0 1px 0 rgb(23 23 26 / 0.04), 0 12px 32px -12px rgb(60 40 30 / 0.18);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #0c0c0e;
+  --surface: #141417;
+  --elevated: #1a1a1e;
+  --ink: #ededf0;
+  --muted: #a6a6b0;
+  --subtle: #8c8c96;
+  --line: #26262b;
+  --accent: #ff6a2b;
+  --accent-ink: #ff8a55;
+  --accent-soft: rgb(255 106 43 / 0.12);
+  --on-accent: #120a06;
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 16px 40px -16px rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --radius-tile: 18px;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo);
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* Grain: fixed, non-scrolling layer so it never repaints with scroll. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-theme="dark"] .grain::after { opacity: 0.06; }
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll reveal: only hidden once JS has confirmed it can reveal it again. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.9s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo);
+    transition-delay: calc(var(--d, 0) * 70ms);
+  }
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero headline: words rise in sequence on first paint. */
+  .rise {
+    display: inline-block;
+    animation: rise 1s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 55ms + 80ms);
+  }
+  .portrait-in {
+    animation: portrait-in 1.3s var(--ease-out-expo) 0.15s both;
+  }
+  .fade-in {
+    animation: fade-in 1s var(--ease-out-expo) both;
+    animation-delay: var(--delay, 0.5s);
+  }
+
+  .marquee-track {
+    animation: marquee 48s linear infinite;
+  }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(0.45em); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes portrait-in {
+  from { opacity: 0; clip-path: inset(18% 12% 18% 12% round 18px); transform: scale(1.04); }
+  to { opacity: 1; clip-path: inset(0 0 0 0 round 18px); transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Spotlight tiles: border + glow follow the pointer via --mx/--my set in JS. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--accent), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 2;
+}
+.spotlight:hover::before,
+.spotlight:focus-visible::before { opacity: 1; }
+
+/* Dot texture used on a few tiles for variety. */
+.dots {
+  background-image: radial-gradient(color-mix(in oklab, var(--ink) 18%, transparent) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+/* Native dialog animation + backdrop. */
+dialog.project-dialog {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition:
+    opacity 0.35s var(--ease-out-expo),
+    transform 0.45s var(--ease-out-expo),
+    overlay 0.35s allow-discrete,
+    display 0.35s allow-discrete;
+}
+dialog.project-dialog[open] {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  dialog.project-dialog[open] {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+dialog.project-dialog::backdrop {
+  background: rgb(10 10 12 / 0);
+  backdrop-filter: blur(0);
+  transition:
+    background 0.35s var(--ease-out-expo),
+    backdrop-filter 0.35s var(--ease-out-expo),
+    overlay 0.35s allow-discrete,
+    display 0.35s allow-discrete;
+}
+dialog.project-dialog[open]::backdrop {
+  background: rgb(10 10 12 / 0.55);
+  backdrop-filter: blur(6px);
+}
+@starting-style {
+  dialog.project-dialog[open]::backdrop {
+    background: rgb(10 10 12 / 0);
+    backdrop-filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

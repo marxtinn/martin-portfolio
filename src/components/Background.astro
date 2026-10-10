@@ -1,0 +1,41 @@
+---
+import { education, languages, profile } from '../data/site';
+---
+<section aria-labelledby="background-title" class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+  <div class="grid gap-14 border-t border-line pt-14 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
+    <div data-reveal>
+      <h2 id="background-title" class="sr-only">Background</h2>
+      <p class="text-3xl leading-[1.2] font-medium tracking-[-0.025em] text-balance text-ink md:text-[2.6rem]">
+        Trained as a mechanical engineer, retrained in full-stack web development.{' '}
+        <span class="text-subtle">I care most about components that are easy to maintain and UI that works for everyone.</span>
+      </p>
+    </div>
+
+    <dl class="grid content-start gap-10" data-reveal style="--d:1">
+      <div>
+        <dt class="text-sm font-medium text-ink">Education</dt>
+        {education.map((e) => (
+          <dd class="mt-4">
+            <p class="text-ink">{e.school}</p>
+            <p class="text-sm text-muted">{e.detail}</p>
+            <p class="mt-0.5 font-mono text-xs text-subtle">{e.note}</p>
+          </dd>
+        ))}
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-ink">Languages</dt>
+        <dd class="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+          {languages.map((l) => (
+            <p class="text-ink">
+              {l.name} <span class="text-sm text-subtle">{l.level}</span>
+            </p>
+          ))}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-ink">Based in</dt>
+        <dd class="mt-4 text-ink">{profile.location}</dd>
+      </div>
+    </dl>
+  </div>
+</section>

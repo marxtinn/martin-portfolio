@@ -1,1 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#111113"/><text x="32" y="42" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="26" font-weight="700" fill="#FF6A2B">MB</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Martin Butarbutar</title>
+  <defs>
+    <!-- Chrome: stacked studio-light bands, same reading as the hero shader. -->
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.22" stop-color="#cfcfd9"/>
+      <stop offset="0.4" stop-color="#fbfbff"/>
+      <stop offset="0.54" stop-color="#4f4f62"/>
+      <stop offset="0.72" stop-color="#c3c3cf"/>
+      <stop offset="1" stop-color="#eeeef4"/>
+    </linearGradient>
+    <!-- Thin-film tint: pink, ice blue, peach. -->
+    <linearGradient id="film" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffb8da"/>
+      <stop offset="0.45" stop-color="#a8d0ff"/>
+      <stop offset="1" stop-color="#ffd9a8"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" fill="#141414"/>
+  <g transform="rotate(-14 32 32)">
+    <rect x="5" y="19" width="54" height="26" rx="13" fill="url(#chrome)"/>
+    <rect x="5" y="19" width="54" height="26" rx="13" fill="url(#film)" opacity="0.22"/>
+    <rect x="13" y="22.5" width="32" height="3.5" rx="1.75" fill="#ffffff" opacity="0.9"/>
+    <rect x="5.5" y="19.5" width="53" height="25" rx="12.5" fill="none" stroke="#ffffff" stroke-opacity="0.5"/>
+  </g>
+</svg>

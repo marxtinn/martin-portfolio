@@ -111,6 +111,20 @@ test('share metadata points at real files', async ({ page, request }) => {
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /^https?:\/\//);
 });
 
+test('tab and home-screen icons are linked and load', async ({ page, request }) => {
+  const icons = {
+    'link[rel="icon"][type="image/svg+xml"]': 'image/svg+xml',
+    'link[rel="icon"][sizes="32x32"]': 'image/',
+    'link[rel="apple-touch-icon"]': 'image/png',
+  };
+  for (const [selector, type] of Object.entries(icons)) {
+    const href = await page.locator(selector).getAttribute('href');
+    const res = await request.get(href!);
+    expect(res.status(), href!).toBe(200);
+    expect(res.headers()['content-type']).toContain(type);
+  }
+});
+
 test('loads and scrolls the whole page without errors', async ({ page }) => {
   const errors = trackErrors(page);
   await page.reload();

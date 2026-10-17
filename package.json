@@ -7,14 +7,14 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "@fontsource-variable/geist": "^5.3.0",
-    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource-variable/instrument-sans": "^5.3.0",
     "@iconify-json/ph": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.99",
     "@iconify/utils": "^3.1.7",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.8",
@@ -22,6 +22,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
     "typescript": "^6.0.3"
   }
 }

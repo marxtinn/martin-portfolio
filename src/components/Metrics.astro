@@ -1,18 +1,20 @@
 ---
+import SectionLabel from './SectionLabel.astro';
 import { metrics } from '../data/site';
 ---
-<section aria-labelledby="metrics-title" class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
-  <h2 id="metrics-title" data-reveal class="max-w-xl text-2xl font-semibold tracking-tight text-balance text-ink md:text-3xl">
+<section aria-labelledby="metrics-title" class="mx-auto max-w-[1400px] px-5 pt-24 pb-24 md:px-8 md:pb-36">
+  <SectionLabel label="Impact" />
+  <h2 id="metrics-title" data-reveal class="display max-w-[18ch] text-[clamp(2.25rem,4.4vw,4rem)] text-ink">
     Ten months at Tesserac AI, in numbers.
   </h2>
 
-  <dl class="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-4">
+  <dl class="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 md:mt-24 lg:grid-cols-4">
     {metrics.map((m, i) => (
-      <div data-reveal style={`--d:${i}`} class="flex flex-col-reverse gap-3">
-        <dt class="max-w-[16rem] text-sm leading-relaxed text-muted">{m.label}</dt>
-        <dd class="font-mono text-5xl font-medium tracking-tight text-ink tabular-nums md:text-6xl">
-          {m.prefix && <span class="mr-1 align-top font-sans text-base font-normal tracking-normal text-subtle">{m.prefix}</span>}
-          <span data-count={m.value}>{m.value}</span><span class="text-accent">{m.suffix}</span>
+      <div data-reveal style={`--d:${i}`} class="flex flex-col-reverse gap-4 border-t border-line pt-6">
+        <dt class="max-w-[17rem] text-sm leading-relaxed text-muted">{m.label}</dt>
+        <dd class="display text-6xl text-ink tabular-nums md:text-7xl">
+          {m.prefix && <span class="mr-2 align-top text-sm font-normal tracking-normal text-subtle">{m.prefix}</span>}
+          <span data-count={m.value}>{m.value}</span>{m.suffix}
         </dd>
       </div>
     ))}

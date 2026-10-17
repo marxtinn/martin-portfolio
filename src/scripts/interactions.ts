@@ -38,14 +38,3 @@ const counter = new IntersectionObserver(
   { threshold: 0.6 },
 );
 document.querySelectorAll('[data-count]').forEach((el) => counter.observe(el));
-
-// Spotlight border: track pointer position as CSS variables on each tile.
-if (matchMedia('(pointer: fine)').matches) {
-  document.querySelectorAll<HTMLElement>('[data-spotlight]').forEach((el) => {
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      el.style.setProperty('--my', `${e.clientY - r.top}px`);
-    });
-  });
-}

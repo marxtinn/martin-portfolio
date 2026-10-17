@@ -27,11 +27,8 @@ export type Project = {
   period: string;
   summary: string;
   stack: string[];
-  icons?: string[];
   points: string[];
-  layout: string;
-  highlights?: string[];
-  tone: 'accent' | 'dots' | 'surface' | 'ink';
+  badge?: string;
 };
 
 export const projects: Project[] = [
@@ -43,7 +40,7 @@ export const projects: Project[] = [
     summary:
       'Lead frontend contributor to a BAS/GST compliance app for accounting firms, from Xero connect to client working papers.',
     stack: ['React 19', 'TypeScript', 'TanStack Router', 'TanStack Query'],
-    icons: ['simple-icons:react', 'simple-icons:typescript', 'simple-icons:reactquery', 'simple-icons:xero'],
+    badge: 'Lead contributor',
     points: [
       'Authored 314 of 477 commits and 71 merged PRs, about half of the production source code.',
       'Planned and ran a migration to TanStack Query with 10 shared API hook modules, cutting the 5 largest route and component files by 71 to 87% (the dashboard page went from 1,000 to 153 lines).',
@@ -51,9 +48,6 @@ export const projects: Project[] = [
       'Shipped passwordless sign-in (magic link, Google OAuth), session management with token revoke, and a password-protected portal for sharing working papers with clients.',
       'Replaced a fetch-everything query with server-side pagination and bulk actions, merged 12 copy-pasted dialogs into one shared shell, and closed all 30 open Dependabot security advisories.',
     ],
-    highlights: ['Xero connect wizard and job workflow', 'Passwordless sign-in and client portal', 'All 30 Dependabot advisories closed'],
-    layout: 'md:col-span-2 lg:row-span-2',
-    tone: 'accent',
   },
   {
     id: 'assistant',
@@ -63,7 +57,6 @@ export const projects: Project[] = [
     summary:
       'TypeScript services that let users chat with an AI assistant inside Slack and Microsoft Teams, taken from sandbox to production.',
     stack: ['TypeScript', 'Node.js', 'CopilotKit', 'Vitest'],
-    icons: ['ph:slack-logo', 'ph:microsoft-teams-logo'],
     points: [
       'Built the services from sandbox prototypes to production and wrote about 217 Vitest cases across both.',
       'Added a live status card and progress indicators to Teams replies.',
@@ -71,8 +64,6 @@ export const projects: Project[] = [
       'Found why Slack replies over 12k characters were silently cut off (a bug inside CopilotKit) and shipped a patch.',
       'Contributed to the Go and Python backends these services call: a streaming chat endpoint, sender authorization checks and Microsoft 365 mail notifications.',
     ],
-    layout: 'md:col-span-2',
-    tone: 'surface',
   },
   {
     id: 'legal',
@@ -81,15 +72,12 @@ export const projects: Project[] = [
     period: '2026',
     summary: 'Set up the first end-to-end test suite and built AI checklist generation with live job status.',
     stack: ['React', 'Office.js', 'Playwright', 'WebSocket'],
-    icons: ['ph:microsoft-word-logo'],
     points: [
       'Set up the first end-to-end test suite: 66 Playwright tests with page objects and API mocks, running in GitHub Actions on Chromium, Firefox and WebKit.',
       'Built AI checklist generation from document templates, with live job status over WebSocket (backoff reconnect, state kept across page refresh).',
       'Replaced base64 form uploads with pre-signed storage uploads and per-file progress bars, cutting the submit timeout from 5 minutes to 1.',
       'Fixed placeholder editing in the Word add-in under Track Changes, which had left orphaned content controls and broken occurrence counts.',
     ],
-    layout: '',
-    tone: 'ink',
   },
   {
     id: 'm365',
@@ -98,14 +86,11 @@ export const projects: Project[] = [
     period: '2026',
     summary: 'Rewrote the command-line tool AI agents use for Microsoft 365, then hardened it after a real incident.',
     stack: ['Node.js', 'Microsoft Graph'],
-    icons: ['ph:microsoft-outlook-logo'],
     points: [
       'Rewrote the Microsoft 365 command-line tool the agents use into 16 Node.js modules and added support for shared mailboxes, Teams, meetings, OneNote, SharePoint and OneDrive.',
       'Fixed the tool after an incident that misfiled 83 client emails (pagination, stable message IDs, undo logs for batch moves) and covered it with a mocked test harness.',
       'Wrote and maintained agent skill instructions for Google Workspace, LexisNexis legal research and legal intake, used by law-firm clients.',
     ],
-    layout: '',
-    tone: 'dots',
   },
   {
     id: 'email-builder',
@@ -120,8 +105,6 @@ export const projects: Project[] = [
       'Made exports render correctly in Outlook and Apple Mail (600px tables, table-based dividers, UTF-8 EML) and locked canvas-to-export parity with 41 Vitest cases.',
       'Fixed an AI editing agent (Mastra) that dropped content from long briefs by tightening its prompt with a section checklist and raising its step limit.',
     ],
-    layout: 'md:col-span-2',
-    tone: 'dots',
   },
   {
     id: 'tracker',
@@ -135,8 +118,6 @@ export const projects: Project[] = [
       'Added bulk selection, inline status changes and quick comments to the cross-project list, matching the project-scoped views.',
       'Fixed layout bugs where pages failed to scroll and long pasted text pushed dialog buttons off-screen.',
     ],
-    layout: '',
-    tone: 'surface',
   },
   {
     id: 'nexlaw',
@@ -145,7 +126,6 @@ export const projects: Project[] = [
     period: '2025',
     summary: 'Modular subscription flows, an optimistic legal chat and Astro feature pages for a US legal-tech company.',
     stack: ['Vue 2', 'Vuex', 'Astro'],
-    icons: ['simple-icons:vuedotjs', 'simple-icons:astro'],
     points: [
       'Split the subscription feature into modular Vue 2 components and Vuex modules.',
       'Added polling and optimistic updates to the legal chat, so messages show up without waiting on the server.',
@@ -153,8 +133,6 @@ export const projects: Project[] = [
       'Designed and built the UI states missing from the design specs.',
       'Built feature pages in Astro with Vue and React components.',
     ],
-    layout: '',
-    tone: 'surface',
   },
   {
     id: 'nex360',
@@ -164,7 +142,6 @@ export const projects: Project[] = [
     summary:
       'Nuxt 3 modules with hybrid SSR, typed Pinia stores, WCAG 2.1 AA UI and interactive D3 analytics dashboards.',
     stack: ['Nuxt 3', 'TypeScript', 'Pinia', 'Tailwind CSS 4', 'D3'],
-    icons: ['simple-icons:nuxt', 'simple-icons:d3', 'simple-icons:tailwindcss'],
     points: [
       'Built the modules in Nuxt 3 (Vue 3 Composition API) and TypeScript with hybrid SSR/CSR rendering.',
       'Set up a feature-based architecture with typed, SSR-hydrated Pinia stores.',
@@ -172,8 +149,6 @@ export const projects: Project[] = [
       'Routed all REST calls through one HTTP client with JWT auth and Zod-validated API contracts.',
       'Built interactive analytics dashboards with D3 and Unovis.',
     ],
-    layout: 'md:col-span-2 lg:col-span-4',
-    tone: 'accent',
   },
 ];
 
@@ -214,26 +189,22 @@ export const experience = [
   },
 ];
 
-export const marquee = [
-  { icon: 'simple-icons:react', name: 'React' },
-  { icon: 'simple-icons:typescript', name: 'TypeScript' },
-  { icon: 'simple-icons:vuedotjs', name: 'Vue' },
-  { icon: 'simple-icons:nextdotjs', name: 'Next.js' },
-  { icon: 'simple-icons:nuxt', name: 'Nuxt' },
-  { icon: 'simple-icons:astro', name: 'Astro' },
-  { icon: 'simple-icons:reactquery', name: 'TanStack Query' },
-  { icon: 'simple-icons:tailwindcss', name: 'Tailwind CSS' },
-  { icon: 'simple-icons:shadcnui', name: 'shadcn/ui' },
-  { icon: 'simple-icons:playwright', name: 'Playwright' },
-  { icon: 'simple-icons:vitest', name: 'Vitest' },
-  { icon: 'simple-icons:nodedotjs', name: 'Node.js' },
-  { icon: 'simple-icons:go', name: 'Go' },
-  { icon: 'simple-icons:python', name: 'Python' },
-  { icon: 'simple-icons:supabase', name: 'Supabase' },
-  { icon: 'simple-icons:d3', name: 'D3' },
-  { icon: 'simple-icons:zod', name: 'Zod' },
-  { icon: 'simple-icons:githubactions', name: 'GitHub Actions' },
-  { icon: 'simple-icons:claude', name: 'Claude Code' },
+export const principles = [
+  {
+    icon: 'ph:puzzle-piece-fill',
+    title: 'Maintainable components',
+    body: 'Shared hooks and shells over copy-paste. The TanStack Query migration cut the largest route files by up to 87%.',
+  },
+  {
+    icon: 'ph:person-arms-spread-fill',
+    title: 'Accessible by default',
+    body: 'UI built to WCAG 2.1 AA, including the states the design specs left out.',
+  },
+  {
+    icon: 'ph:test-tube-fill',
+    title: 'Tested before it ships',
+    body: 'Playwright end-to-end suites across three browsers and Vitest coverage for the logic underneath.',
+  },
 ];
 
 export const skills = [

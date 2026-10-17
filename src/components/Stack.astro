@@ -1,42 +1,26 @@
 ---
-import Icon from './Icon.astro';
-import { marquee, skills } from '../data/site';
+import SectionLabel from './SectionLabel.astro';
+import { skills } from '../data/site';
 ---
-<section id="stack" aria-labelledby="stack-title" class="py-20 md:py-28">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6" data-reveal>
-    <h2 id="stack-title" class="text-4xl font-semibold tracking-[-0.035em] text-ink md:text-5xl">Stack</h2>
-    <p class="mt-4 max-w-[60ch] text-lg leading-relaxed text-muted">
-      TypeScript first. Comfortable across React and Vue, with working experience in Node.js, Go and Python backends.
-    </p>
-  </div>
+<section id="stack" aria-labelledby="stack-title" class="mx-auto max-w-[1400px] px-5 pb-24 md:px-8 md:pb-36">
+  <SectionLabel label="Stack" />
+  <div class="grid gap-14 lg:grid-cols-2 lg:gap-8">
+    <div data-reveal>
+      <h2 id="stack-title" class="display text-[clamp(2.75rem,5.4vw,4.75rem)] text-ink">TypeScript first.</h2>
+      <p class="mt-6 max-w-[26rem] text-[15px] leading-relaxed text-muted">
+        Comfortable across React and Vue, with working experience in Node.js, Go and Python backends.
+      </p>
+    </div>
 
-  <div
-    class="marquee relative mt-12 overflow-hidden border-y border-line bg-surface/60 py-6 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]"
-    aria-label="Technologies I use"
-    role="region"
-  >
-    <ul class="marquee-track flex w-max items-center gap-12 pr-12">
-      {[...marquee, ...marquee].map((t, i) => (
-        <li class="flex items-center gap-3 whitespace-nowrap text-muted" aria-hidden={i >= marquee.length ? 'true' : undefined}>
-          <Icon name={t.icon} size={22} />
-          <span class="text-lg font-medium tracking-tight">{t.name}</span>
-        </li>
+    <div class="grid gap-x-8 gap-y-12 sm:grid-cols-2">
+      {skills.map((s, i) => (
+        <div data-reveal style={`--d:${i % 2}`} class="border-t border-line pt-5">
+          <h3 class="text-xs font-normal text-subtle">{s.group}</h3>
+          <ul class="mt-4 grid gap-1.5">
+            {s.items.map((item) => <li class="text-lg tracking-[-0.01em] text-ink">{item}</li>)}
+          </ul>
+        </div>
       ))}
-    </ul>
-  </div>
-
-  <div class="mx-auto mt-16 grid max-w-6xl gap-x-10 gap-y-12 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1fr_1.4fr_1fr]">
-    {skills.map((s, i) => (
-      <div data-reveal style={`--d:${i % 3}`}>
-        <h3 class="text-sm font-medium text-ink">{s.group}</h3>
-        <ul class="mt-4 flex flex-wrap gap-2">
-          {s.items.map((item) => (
-            <li class="rounded-full border border-line bg-elevated px-3 py-1.5 text-sm text-muted transition-colors duration-300 hover:border-accent hover:text-ink">
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
+    </div>
   </div>
 </section>

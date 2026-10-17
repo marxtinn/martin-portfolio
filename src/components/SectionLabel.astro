@@ -1,0 +1,12 @@
+---
+// Small centered label over a full-width hairline that opens each section.
+interface Props {
+  label: string;
+  band?: boolean;
+}
+const { label, band = false } = Astro.props;
+---
+<div data-reveal class="mb-10 md:mb-14">
+  <p class:list={['text-center text-xs', band ? 'text-band-ink' : 'text-ink']}>{label}</p>
+  <hr class:list={['mt-3 border-0 border-t', band ? 'border-band-line' : 'border-line']} />
+</div>

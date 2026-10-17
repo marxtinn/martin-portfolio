@@ -1,12 +1,11 @@
 ---
-// Renders Phosphor / Simple Icons as inline SVG at build time (zero client JS).
+// Renders Phosphor icons as inline SVG at build time (zero client JS).
 import { getIconData, iconToSVG, iconToHTML, replaceIDs } from '@iconify/utils';
 import ph from '@iconify-json/ph/icons.json';
-import si from '@iconify-json/simple-icons/icons.json';
 import type { IconifyJSON } from '@iconify/types';
 
 interface Props {
-  name: string; // "ph:arrow-right" | "simple-icons:react"
+  name: string; // "ph:arrow-right"
   size?: number | string;
   class?: string;
   label?: string;
@@ -14,7 +13,7 @@ interface Props {
 
 const { name, size = '1em', class: className, label } = Astro.props;
 const [prefix, icon] = name.split(':');
-const sets: Record<string, IconifyJSON> = { ph: ph as IconifyJSON, 'simple-icons': si as IconifyJSON };
+const sets: Record<string, IconifyJSON> = { ph: ph as IconifyJSON };
 const data = sets[prefix] && getIconData(sets[prefix], icon);
 if (!data) throw new Error(`Unknown icon: ${name}`);
 

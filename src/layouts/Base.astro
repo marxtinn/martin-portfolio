@@ -1,6 +1,7 @@
 ---
-import '@fontsource-variable/geist';
-import '@fontsource-variable/geist-mono';
+import '@fontsource-variable/instrument-sans';
+// Preload the Latin subset so the headline font is ready by first paint.
+import fontLatin from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import { profile } from '../data/site';
 
@@ -21,10 +22,11 @@ const ogImage = new URL('/og.jpg', Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="preload" href={fontLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0c0c0e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -55,8 +57,8 @@ const ogImage = new URL('/og.jpg', Astro.site);
       })();
     </script>
   </head>
-  <body class="grain min-h-[100dvh] overflow-x-clip">
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[90] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-bg">Skip to content</a>
+  <body class="min-h-[100dvh] overflow-x-clip">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[90] focus:bg-ink focus:px-4 focus:py-2 focus:text-bg">Skip to content</a>
     <slot />
   </body>
 </html>

@@ -21,17 +21,23 @@ test('theme toggle switches and persists across reloads', async ({ page }) => {
 });
 
 test('header switches to dark while the dark band is under it', async ({ page }) => {
-  await page.emulateMedia({ colorScheme: 'light' });
+  // Reduced motion turns off the site's smooth scrolling, so every jump below lands instantly
+  // and exactly where we put it, in every engine.
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
   await page.goto('/');
   const header = page.locator('[data-header]');
 
-  await scrollToTop(page, '[data-band]');
-  await page.evaluate(() => window.scrollBy(0, 40));
+  await scrollToTop(page, '[data-band]', 200);
   await expect(header).toHaveAttribute('data-theme', 'dark');
 
-  await scrollToTop(page, '#experience');
-  await page.evaluate(() => window.scrollBy(0, 200));
+  // Well past the boundary: right at it, the band's edge still touches the header zone,
+  // which correctly keeps the header dark.
+  await scrollToTop(page, '#experience', 200);
   await expect(header).not.toHaveAttribute('data-theme', /.+/);
+
+  // And back again, to prove the switch works in both directions.
+  await scrollToTop(page, '[data-band]', 200);
+  await expect(header).toHaveAttribute('data-theme', 'dark');
 });
 
 test('header is transparent at the top and solid after scrolling', async ({ page }) => {
